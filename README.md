@@ -1,2 +1,1 @@
-# projectrepo
-BIO312 Project Repository
+# BIO312 Fall 2024 Project Repository

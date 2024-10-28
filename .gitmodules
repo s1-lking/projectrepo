@@ -1,3 +1,15 @@
 [submodule "lab08-s1-lking"]
 	path = lab08-s1-lking
 	url = https://github.com/Bio312/lab08-s1-lking
+[submodule "lab03-s1-lking"]
+	path = lab03-s1-lking
+	url = https://github.com/Bio312/lab03-s1-lking
+[submodule "lab04-s1-lking"]
+	path = lab04-s1-lking
+	url = https://github.com/Bio312/lab04-s1-lking
+[submodule "lab05-s1-lking"]
+	path = lab05-s1-lking
+	url = https://github.com/Bio312/lab05-s1-lking
+[submodule "lab06-s1-lking"]
+	path = lab06-s1-lking
+	url = https://github.com/Bio312/lab06-s1-lking

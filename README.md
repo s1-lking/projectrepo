@@ -108,19 +108,74 @@ Rscript --vanilla ~/lab05-$MYGIT/plotUnrooted.R  ~/lab05-$MYGIT/smc3/smc3.homolo
 ```bash
 gotree reroot midpoint -i ~/lab05-$MYGIT/smc3/smc3.homologsf.al.fas.treefile -o ~/lab05-$MYGIT/smc3/smc3.homologsf.al.mid.treefile
 ```
-4. display the midpoint rooted tree as a svg
+5. display the midpoint rooted tree as a svg
 ```bash
 nw_order -c n ~/lab05-$MYGIT/smc3/smc3.homologsf.al.mid.treefile  | nw_display -w 1000 -b 'opacity:0' -s  >  ~/lab05-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.svg -
 ```
-5. convert the midpoint rooted tree svg into a pdf
+6. convert the midpoint rooted tree svg into a pdf
 ```bash
 convert ~/lab05-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.svg  ~/lab05-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.pdf
 ```
-6. display the midpoint rooted tree as a cladogram
+7. display the midpoint rooted tree as a cladogram
 ```bash
 nw_order -c n ~/lab05-$MYGIT/smc3/smc3.homologsf.al.mid.treefile | nw_topology - | nw_display -s  -w 1000 > ~/lab05-$MYGIT/smc3/smc3.homologsf.al.midCl.treefile.svg -
 convert ~/lab05-$MYGIT/smc3/smc3.homologsf.al.midCl.treefile.svg ~/lab05-$MYGIT/smc3/smc3.homologsf.al.midCl.treefile.pdf
 ```
 
+## Lab 6
 
+1. Reconcile the gene and species tree using Notung
+```bash
+java -jar ~/tools/Notung-3.0_24-beta/Notung-3.0_24-beta.jar -s ~/lab05-$MYGIT/species.tre -g ~/lab06-$MYGIT/smc3/smc3.homologsf.al.mid.treefile --reconcile --speciestag prefix --savepng --events --outputdir ~/lab06-$MYGIT/smc3/
+```
+2. generate a RecPhyloXML object and view the gene-within-species tree via thirdkind
+```bash
+python2.7 ~/tools/recPhyloXML/python/NOTUNGtoRecPhyloXML.py -g ~/lab06-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.rec.ntg --include.species
+```
+3. create a gene-reconciliation-within species tree reconciliation graphic using thirdkind
+```bash
+thirdkind -Iie -D 40 -f ~/lab06-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.rec.ntg.xml -o  ~/lab06-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.rec.svg
+```
+4. convert the reconciled tree svg into a pdf
+```bash
+convert  -density 150 ~/lab06-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.rec.svg ~/lab06-$MYGIT/smc3/smc3.homologsf.al.mid.treefile.rec.pdf
+```
 
+## Lab 8
+
+1. make a copy of our raw unaligned sequence, removing the asterisk (stop codon) in the process
+```bash
+sed 's/*//' ~/lab04-$MYGIT/smc3/smc3.homologs.fas > ~/lab08-$MYGIT/smc3/smc3.homologs.fas
+```
+2. run RPS-Blast using the unaligned sequences as query and the given Pfam database
+```bash
+rpsblast -query ~/lab08-$MYGIT/smc3/smc3.homologs.fas -db ~/data/Pfam/Pfam -out ~/lab08-$MYGIT/smc3/smc3.rps-blast.out  -outfmt "6 qseqid qlen qstart qend evalue stitle" -evalue .0000000001
+```
+3. Copy the final gene tree over from lab 5
+```bash
+cp ~/lab05-$MYGIT/smc3/smc3.homologsf.outgroupbeta.treefile ~/lab08-$MYGIT/smc3
+```
+4. plot the pfam domain predictions from rps-blast next to their cognate protein on the phylogeny
+```bash
+Rscript  --vanilla ~/lab08-$MYGIT/plotTreeAndDomains.r ~/lab08-$MYGIT/smc3/smc3.homologsf.outgroupbeta.treefile ~/lab08-$MYGIT/smc3/smc3.rps-blast.out ~/lab08-$MYGIT/smc3/smc3.tree.rps.pdf
+```
+5. view the tab delimited annotations using the script below or viewing the pdf made in the previous step
+```bash
+mlr --inidx --ifs "\t" --opprint  cat ~/lab08-$MYGIT/smc3/smc3.rps-blast.out | tail -n +2 | less -S
+```
+6. examine the RPS-output file for proteins that have more than one annotation
+```bash
+cut -f 1 ~/lab08-$MYGIT/smc3/smc3.rps-blast.out | sort | uniq -c
+```
+7. examine the RPS-output file for the most commonly found Pfam domain annotation
+```bash
+cut -f 6 ~/lab08-$MYGIT/smc3/smc3.rps-blast.out | sort | uniq -c
+```
+8. examine the RPS-output file for the longest annotated protein domain
+```bash
+awk '{a=$4-$3;print $1,'\t',a;}' ~/lab08-$MYGIT/smc3/smc3.rps-blast.out |  sort  -k2nr
+```
+9. examine the RPS-output file for the protein that has a domain annotation with the best e-value
+```bash
+cut -f 1,5 -d $'\t' ~/lab08-$MYGIT/smc3/smc3.rps-blast.out
+```

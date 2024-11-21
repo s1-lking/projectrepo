@@ -718,3 +718,7 @@
   718  git pull --no-edit
   719  git push 
   720  history > lab8.commandhistory.txt
+  721  find . -size +5M | sed 's|^\./||g' | cat >> .gitignore; awk '!NF || !seen[$0]++' .gitignore
+  722  git add .
+  723  git commit -a -m "Adding all new data files I generated in AWS to the repository."
+  724  history > lab8.commandhistory.txt

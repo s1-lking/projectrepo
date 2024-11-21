@@ -157,7 +157,7 @@ cp ~/lab05-$MYGIT/smc3/smc3.homologsf.outgroupbeta.treefile ~/lab08-$MYGIT/smc3
 ```
 4. plot the pfam domain predictions from rps-blast next to their cognate protein on the phylogeny
 ```bash
-Rscript  --vanilla ~/lab08-$MYGIT/plotTreeAndDomains.r ~/lab08-$MYGIT/smc3/smc3.homologsf.outgroupbeta.treefile ~/lab08-$MYGIT/smc3/smc3.rps-blast.out ~/lab08-$MYGIT/smc3/smc3.tree.rps.pdf
+Rscript  --vanilla ~/lab08-$MYGIT/plotTreeAndDomains2.r ~/lab08-$MYGIT/smc3/smc3.homologsf.outgroupbeta.treefile ~/lab08-$MYGIT/smc3/smc3.rps-blast.out ~/lab08-$MYGIT/smc3/smc3.homologs.fas ~/lab08-$MYGIT/smc3/smc3.tree.rps.pdf
 ```
 5. view the tab delimited annotations using the script below or viewing the pdf made in the previous step
 ```bash
